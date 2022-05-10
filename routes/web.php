@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\NotificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UsersController;
@@ -25,6 +26,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //Route::resource('/admin/users', UsersController::class);
 
-Route::prefix('/admin')->name('admin.')->middleware('can:manage-users')->group(function() {
+Route::prefix('/admin')->name('admin.')->middleware(['auth','can:admin'])->group(function() {
+    Route::prefix('notifications')->name('notification.')->group(function(){
+        Route::get('store',[NotificationController::class,'store'])->name('store');
+        Route::get('/',[NotificationController::class,'index'])->name('index');
+    });
+
     Route::resource('users', UsersController::class);
 });
+
