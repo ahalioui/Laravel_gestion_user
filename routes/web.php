@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\Admin\NotificationController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +19,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+require __DIR__.'/auth.php';
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -34,4 +34,3 @@ Route::prefix('/admin')->name('admin.')->middleware(['auth','can:admin'])->group
 
     Route::resource('users', UsersController::class);
 });
-
