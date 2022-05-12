@@ -17,7 +17,7 @@ public function index(){
 
     public function store(){
         request()->validate([
-            'type' => ['required','in:email,tel',new NotificationExist],
+            'type' => ['required','in:email,phone',new NotificationExist],
             'data' => ['required'],
         ]);
         $type = request('type');

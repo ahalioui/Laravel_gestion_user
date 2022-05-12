@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Notification;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -20,12 +21,15 @@ class UsersTableSeeder extends Seeder
     {
         User::truncate();
         DB::table('role_user')->truncate();
+        DB::table('notifications')->truncate();
+
 
         $admin = User::create([
             'name' => 'admin',
             'email' => 'admin@admin.com',
             'phone' => '0483080260',
             'password' => Hash::make('admin'),
+            
         ]);
 
         $utilisateur = User::create([
@@ -33,13 +37,19 @@ class UsersTableSeeder extends Seeder
             'email' => 'util@util.com',
             'phone' =>'0483080260',
             'password' => Hash::make('1234'),
+            
         ]);
 
         $adminRole = Role::where('name', 'admin')->first();
         $utilisateurRole = Role::where('name', 'utilisateur')->first();
+       
 
         $admin->roles()->attach($adminRole);
+       
+
         $utilisateur->roles()->attach($utilisateurRole);
+
+        
 
         
     }

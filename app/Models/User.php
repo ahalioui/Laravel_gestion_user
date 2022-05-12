@@ -57,4 +57,10 @@ class User extends Authenticatable
     {
         return $this->roles()->where('name','$roles')->first();
     }
+
+    public function notifications()
+    {
+        return $this->belongsToMany('App\Models\Notification');
+    }
+
 }
