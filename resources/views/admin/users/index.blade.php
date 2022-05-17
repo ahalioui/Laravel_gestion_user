@@ -47,18 +47,67 @@
                             </td>
                             </tr>
                          @endforeach
+
+                         
                     </tbody>
                     </table>
                 </div>
+                
+
+                <div class="card-header">{{ __('Liste des notifications') }}</div>
+
+                        <div class="card-body">
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Date de création</th>
+                                <th scope="col">Date d'update</th>
+                                <th scope="col">Type</th>
+
+                                <th scope="col">Data</th>
+                                <th scope="col">Actions</th>
+                                </tr>
+                        </thead>
+                            <tbody>
+                                @foreach ($notifications as $notification)
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap" >{{ $user->id }}</th>
+                                    <td>{{ $notification->id }} </td>
+                                    <td>{{ $notification->created_at }} </td>
+                                    <td>{{ $notification->updated_at }}</td>
+                                    <td>{{ $notification->type }}</td>
+                                    <td>{{ $notification->data }}</td>
+                                    <td>
+                                        
+                                        <a href="{{ route('admin.notifications.edit', $notification->id) }}"><x-button class="btn btn-blue">Editer</x-button></a>
+                                        
+                                        <form action="{{ route('admin.notifications.destroy', $notification->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <x-button class="btn btn-red">Supprimer</x-button>
+                                        </form>
+                                    
+                                    </td>
+                                    </tr>
+                                @endforeach
+
+                                <a href="{{ route('admin.notifications.create') }}"><x-button class="btn btn-blue">Ajouter un contact de notifications</x-button></a>
+                            </tbody>
+                            </table>
+</div>
+
+                
+                
                     
-                    
                    
 
 
                    
 
                    
-                </div>
+                
             </div>
         </div>
     </div>

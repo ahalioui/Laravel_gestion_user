@@ -32,10 +32,12 @@ Route::prefix('/admin')->name('admin.')->middleware(['auth','can:admin'])->group
     Route::prefix('notifications')->name('notification.')->group(function(){
         Route::get('store',[NotificationController::class,'store'])->name('store');
         Route::get('/',[NotificationController::class,'index'])->name('index');
+        
+
     });
 
     Route::resource('users', UsersController::class);
-    
+    Route::resource('notifications', NotificationController::class);
 });
 
 // Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function()

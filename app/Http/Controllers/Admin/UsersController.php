@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 
 class UsersController extends Controller
@@ -18,7 +19,11 @@ class UsersController extends Controller
     public function index()
     {
         $users=User::all();
-        return view ('admin.users.index')->with('users', $users);
+        $notifications=Notification::all();
+        return view ('admin.users.index',[
+            'users' => $users,
+            'notifications' => $notifications
+        ]);
     }
 
     /**

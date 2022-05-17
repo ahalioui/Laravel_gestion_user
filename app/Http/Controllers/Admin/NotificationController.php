@@ -10,28 +10,71 @@ use Illuminate\Http\Request;
 class NotificationController extends Controller
 {
 public function index(){
-    return Notification::all();
+
+    $notifications=Notification::all();
+    return view ('notifications.index')->with('notifications', $notifications);
 
 
 }
 
-    public function store(){
-        request()->validate([
-            'type' => ['required','in:email,tel',new NotificationExist],
-            'data' => ['required'],
+    public function store(Request $request)
+    {
+        // request()->validate([
+        //     'type' => ['required','in:email,tel',new NotificationExist],
+        //     'data' => ['required'],
+        // ]);
+        // $type = request('type');
+        // $data = request('data');
+
+        // $notification = new Notification();
+
+        // $notification->type = $request->type;
+        // $notification->data = $request->data;
+
+        // $notification->save();
+
+        // return redirect()->route('admin.users.index');
+
+        Notification::create([
+            'type'=>$request->type,
+            'data'=>$request->data
         ]);
-        $type = request('type');
-        $data = request('data');
 
-        $notification = new Notification;
-
-        $notification->type = $type;
-        $notification->data = $data;
-
-        $notification->save();
-
-        return $notification;
+        dd('test ok');
 
 
     }
+
+    public function update(Request $request, Notification $notification)
+    {
+        $notification->type = $request->type;
+        $notification->data = $request->data;
+        $notification->save();
+
+        return redirect()->route('admin.users.index');
+
+    }
+
+    public function destroy(Notification $notification)
+    {
+        $notification->delete();
+
+        return redirect()->route('admin.users.index');
+    }
+
+    public function edit(Notification $notification)
+    {   
+        
+        return view('admin.notifications.edit', [
+            'notification' => $notification,
+        
+        ]);
+    }
+
+    public function create()
+    {
+        return view('admin.notifications.create');
+    }
+
+
 }
