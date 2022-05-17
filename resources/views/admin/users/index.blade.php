@@ -19,6 +19,8 @@
                         <th scope="col">#</th>
                         <th scope="col">Nom</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+
                         <th scope="col">Rôles</th>
                         <th scope="col">Actions</th>
                         </tr>
@@ -26,21 +28,22 @@
                     <tbody>
                         @foreach ($users as $user)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap" >{{ $user->id }}</th>
                             <td>{{ $user->name }} </td>
+                            
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->phone }}</td>
                             <td>{{implode(', ', $user->roles()->get()->pluck('name')->toArray()) }}</td>
                             <td>
-                                @can('manage-users')
-                                <a href="{{ route('admin.users.edit', $user->id) }}"><button class="btn btn-primary">Editer</button></a>
+                                
+                                <a href="{{ route('admin.users.edit', $user->id) }}"><x-button class="btn btn-blue">Editer</x-button></a>
                                 
                                 <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-warning">Supprimer</button>
+                                    <x-button class="btn btn-red">Supprimer</x-button>
                                 </form>
-                                @endcan
+                               
                             </td>
                             </tr>
                          @endforeach
