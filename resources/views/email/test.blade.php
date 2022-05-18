@@ -7,6 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Test d'envoi de mail avec Laravel</h1>
+    <h1>L'utilisateur {{ Auth::user()->name }} vient de se connecter</h1>
+    
+    
 </body>
 </html>

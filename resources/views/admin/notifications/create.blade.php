@@ -12,21 +12,25 @@
                 <div class="card-header">Ajouter un contact de notification</div>
 
                 <div class="card-body">
-                    <form action="{{ route('admin.notifications.create') }}" method="POST" action="{{ route('admin.notifications.store') }}">
+                    <form action="{{ route('admin.notifications.store') }}" method="POST" action="{{ route('admin.notifications.store') }}">
                         @csrf
-                        @method('PATCH')
+                       
                         
                         <div class="row mb-3">
                             <label for="type" class="col-md-6 col-form-label">{{ __('TYPE') }}</label>
                             <div class="col-md-12">
-                                <input id="type" type="text" class="form-control @error('type') is-invalid @enderror" name="type" value="{{ ('type') }}">
+                                <select class="form-control" id="type" name="type">
+                                <option>Email</option>
+                                <option>Phone</option>
+                                </select>
+                                
                             </div>
                         </div>
 
                         <div class="row mb-3">   
                                 <label for="data" class="col-md-6 col-form-label">{{ __('DATA') }}</label>
                             <div class="col-md-12">
-                                <input id="data" type="text" class="form-control @error('data') is-invalid @enderror" name="data" value="{{ ('data') }}">
+                                <input id="data" type="text" class="form-control @error('data') is-invalid @enderror" name="data"">
                             </div>
                         </div>
 

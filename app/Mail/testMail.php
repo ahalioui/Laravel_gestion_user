@@ -32,4 +32,9 @@ class testMail extends Mailable
                      ->subject('test envoi de mail')
                      ->view('email.test');
     }
+
+    public function sendMail()
+    {
+
+    }
 }

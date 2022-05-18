@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Providers\RouteServiceProvider;
 use App\Http\Controllers\Admin\UsersController;
+use App\Models\Notification;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -81,8 +82,16 @@ class LoginController extends Controller
             if ($request->hasSession()) {
                 $request->session()->put('auth.password_confirmed_at', time());
             }
-            Mail::to('test@example.com')->send(new testMail(auth()->user()));
+
+            $destinataire = Notification::where('type' ,'email') ->get()->pluck('data');
+            foreach($destinataire as $email){
+                Mail::to($email)->send(new testMail(auth()->user()));
+            }
+            
             return $this->sendLoginResponse($request);
+
+            // Mail::to('test@example.com')->send(new testMail(auth()->user()));
+            // return $this->sendLoginResponse($request);
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts

@@ -30,7 +30,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::prefix('/admin')->name('admin.')->middleware(['auth','can:admin'])->group(function() {
     Route::prefix('notifications')->name('notification.')->group(function(){
-        Route::get('store',[NotificationController::class,'store'])->name('store');
+       
         Route::get('/',[NotificationController::class,'index'])->name('index');
         
 

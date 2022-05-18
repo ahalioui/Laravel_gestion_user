@@ -35,14 +35,26 @@ public function index(){
 
         // return redirect()->route('admin.users.index');
 
-        Notification::create([
-            'type'=>$request->type,
-            'data'=>$request->data
+        // Notification::create([
+        //     'type'=>$request->type,
+        //     'data'=>$request->data
+        // ]);
+
+        // return redirect()->route('admin.users.index');
+
+        $request->validate([
+            'type' => ['required', 'string', 'max:255'],
+            'data' => ['required', 'string',],
+            
         ]);
 
-        dd('test ok');
+        $notification = Notification::create([
+            'type' => $request->type,
+            'data' => $request->data,
+            
+        ]);
 
-
+        return redirect()->route('admin.users.index');
     }
 
     public function update(Request $request, Notification $notification)
