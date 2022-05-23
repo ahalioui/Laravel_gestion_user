@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Exception;
+use Throwable;
+use Vonage\Client;
 use App\Mail\testMail;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -10,8 +14,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Providers\RouteServiceProvider;
 use App\Http\Controllers\Admin\UsersController;
-use App\Models\Notification;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Notifications\Messages\VonageMessage;
 
 class LoginController extends Controller
 {
@@ -83,10 +87,48 @@ class LoginController extends Controller
                 $request->session()->put('auth.password_confirmed_at', time());
             }
 
-            $destinataire = Notification::where('type' ,'email') ->get()->pluck('data');
-            foreach($destinataire as $email){
-                Mail::to($email)->send(new testMail(auth()->user()));
-            }
+            
+
+                $destinataire = Notification::where('type' ,'email') ->get()->pluck('data');
+                foreach($destinataire as $email){
+                    try {
+                        Mail::to($email)->send(new testMail(auth()->user()));
+                    } catch (Throwable $e) {
+                        report($e);
+                    }
+                }
+            
+
+           
+         
+
+                
+                $message='xxx is connected';
+                $phones = Notification::where('type' ,'phone') ->get()->pluck('data');
+                foreach ($phones as $phone){
+                    try{
+                        $message = (new VonageMessage($message))->usingClient(resolve(Client::class))->from(config('vonage.sms_from'));
+                        $payload = [
+                            'type' => $message->type,
+                            'from' => $message->from,
+                            'to' => $phone,
+                            'text' => trim($message->content),
+                            'client-ref' => $message->clientReference,
+                        ];
+
+                        $message->client->message()->send($payload);
+                    }catch (Throwable $e) {
+                        report($e);
+    
+                    }
+    
+                }
+            
+
+            
+        
+           
+            
             
             return $this->sendLoginResponse($request);
 

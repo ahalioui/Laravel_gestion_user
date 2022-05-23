@@ -1,8 +1,10 @@
 <?php
 
+use Vonage\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UsersController;
+use Illuminate\Notifications\Messages\VonageMessage;
 use App\Http\Controllers\Admin\NotificationController;
 
 /*
@@ -38,6 +40,23 @@ Route::prefix('/admin')->name('admin.')->middleware(['auth','can:admin'])->group
 
     Route::resource('users', UsersController::class);
     Route::resource('notifications', NotificationController::class);
+});
+
+Route::get('/test',function(){
+    $message='Message SMS';
+    $to='+32485667788';
+    $message = (new VonageMessage($message))->usingClient(resolve(Client::class))->from(config('vonage.sms_from'));
+    $payload = [
+        'type' => $message->type,
+        'from' => $message->from,
+        'to' => $to,
+        'text' => trim($message->content),
+        'client-ref' => $message->clientReference,
+    ];
+
+    $message->client->message()->send($payload);
+
+    return 'sms ok';
 });
 
 // Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function()
