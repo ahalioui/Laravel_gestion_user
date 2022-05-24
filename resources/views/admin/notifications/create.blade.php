@@ -31,6 +31,9 @@
                                 <label for="data" class="col-md-6 col-form-label">{{ __('DATA') }}</label>
                             <div class="col-md-12">
                                 <input id="data" type="text" class="form-control @error('data') is-invalid @enderror" name="data"">
+                                @error('data')
+                                <div>{{ $errors->first('data'); }}</div>
+                                @enderror
                             </div>
                         </div>
 

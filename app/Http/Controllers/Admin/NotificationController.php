@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Rules\NotificationExist;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+
 
 class NotificationController extends Controller
 {
@@ -44,7 +47,7 @@ public function index(){
 
         $request->validate([
             'type' => ['required', 'string', 'max:255'],
-            'data' => ['required', 'string',],
+            'data' => ['required', 'string', 'max:255', 'unique:notifications'],
             
         ]);
 
